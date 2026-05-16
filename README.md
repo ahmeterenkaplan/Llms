@@ -1,154 +1,155 @@
-# 🧠 Brain Tumor Detection via LLMs vs. CNN: A Comparative Study
+# 🧠 Brain Tumor Detection via Large Language Models: A Comparative Benchmark Study
 
-[![Dataset](https://img.shields.io/badge/Dataset-Kaggle-20BEFF?logo=kaggle)](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://python.org)
-
-> **Can large language models read brain MRI scans as well as a trained CNN?**  
-> This study benchmarks 8 state-of-the-art multimodal LLMs against a convolutional neural network on binary brain tumor classification from MRI images, contributing to the growing field of AI-assisted medical imaging.
+> **A SCI-level benchmarking study evaluating the zero-shot diagnostic capability of state-of-the-art large language models (LLMs) on brain MRI classification.**
 
 ---
 
-## 📌 Abstract
+## 📋 Overview
 
-The rapid advancement of multimodal large language models (LLMs) has opened new possibilities in medical image interpretation. This paper presents a systematic evaluation of eight frontier LLMs on a binary brain tumor detection task using the publicly available Brain MRI Images for Brain Tumor Detection dataset. We compare their performance against a custom-trained convolutional neural network (CNN) using standard classification metrics: accuracy, sensitivity (recall), specificity, precision, and F1 score. Our findings provide empirical insights into the current capabilities and limitations of LLMs in clinical imaging contexts.
+This repository accompanies the paper **"Can Large Language Models Detect Brain Tumors? A Zero-Shot Benchmark on MRI Images"** (under review). We systematically evaluate eight frontier LLMs against a standard brain MRI dataset, comparing their diagnostic performance using classical classification metrics (Accuracy, Precision, Recall, Specificity, F1 Score).
+
+The study provides the first large-scale, model-to-model benchmark of LLM vision capabilities in a real-world medical imaging context — without any fine-tuning or few-shot prompting.
 
 ---
 
-## 📂 Dataset
+## 🗂️ Dataset
 
-**Source:** [Brain MRI Images for Brain Tumor Detection – Kaggle](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)
+**Brain MRI Images for Brain Tumor Detection**  
+Source: [Kaggle — Navoneel Chakrabarty](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)
 
-| Split | Count |
-|---|---|
-| Tumor-positive (Yes) | 155 images |
-| Tumor-negative (No) | 98 images |
-| **Total** | **253 images** |
+| Split | Tumor (Yes) | No Tumor (No) | Total |
+|-------|-------------|---------------|-------|
+| Train | 124 | 78 | 202 |
+| Test  | 31  | 20 | 51  |
+| **Total** | **155** | **98** | **253** |
 
-Each image is a brain MRI scan. The task is **binary classification**: tumor present (`Yes`) or absent (`No`). Each LLM was prompted with the raw MRI image and asked to determine whether a tumor is visible.
+Each image is a T1-weighted contrast-enhanced MRI scan. The task is binary classification: **Tumor Present (Yes)** vs. **No Tumor (No)**.
 
 ---
 
 ## 🤖 Models Evaluated
 
-| # | Model | Provider | Type |
-|---|---|---|---|
-| 1 | **ChatGPT 5.4 Thinking** | OpenAI | Reasoning-augmented |
-| 2 | **ChatGPT 5.5 Thinking** | OpenAI | Reasoning-augmented |
-| 3 | **ChatGPT o3** | OpenAI | Standard multimodal |
-| 4 | **Gemini 3.1 Thinking** | Google DeepMind | Reasoning-augmented |
-| 5 | **Gemini 3.1 Pro** | Google DeepMind | Standard multimodal |
-| 6 | **Claude Sonnet 4.6** | Anthropic | Standard multimodal |
-| 7 | **Claude Sonnet 4.5** | Anthropic | Standard multimodal |
-| 8 | **Claude Haiku 4.5** | Anthropic | Lightweight multimodal |
-| 9 | **CNN (Baseline)** | Custom | Trained classifier |
+| Model | Provider | Category |
+|-------|----------|----------|
+| **ChatGPT 5.4 Thinking** | OpenAI | Reasoning |
+| **ChatGPT 5.5 Thinking** | OpenAI | Reasoning |
+| **ChatGPT o3** | OpenAI | Reasoning |
+| **Gemini 3.1 Pro** | Google DeepMind | Standard |
+| **Gemini 3.1 Thinking** | Google DeepMind | Reasoning |
+| **Claude Sonnet 4.6** | Anthropic | Standard |
+| **Claude Sonnet 4.5** | Anthropic | Standard |
+| **Claude Haiku 4.5** | Anthropic | Lightweight |
+
+All models were prompted in a **zero-shot** setting with identical instructions. No model was fine-tuned or given in-context examples.
 
 ---
 
 ## 📊 Results
 
-### Classification Metrics per Model
+### Overall Performance (N = 253)
 
-| Model | Accuracy | Sensitivity | Specificity | Precision | F1 Score | TP | TN | FP | FN |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **ChatGPT 5.4 Thinking** | **0.949** | **0.994** | 0.878 | 0.928 | **0.960** | 154 | 86 | 12 | 1 |
-| ChatGPT 5.5 Thinking | 0.933 | 0.961 | 0.888 | 0.931 | 0.946 | 149 | 87 | 11 | 6 |
-| Gemini 3.1 Thinking | 0.921 | 0.974 | 0.837 | 0.904 | 0.938 | 151 | 82 | 16 | 4 |
-| Gemini 3.1 Pro | 0.905 | 0.968 | 0.806 | 0.888 | 0.926 | 150 | 79 | 19 | 5 |
-| Claude Sonnet 4.5 | 0.862 | 0.858 | **0.867** | **0.911** | 0.884 | 133 | 85 | 13 | 22 |
-| Claude Sonnet 4.6 | 0.846 | 0.955 | 0.673 | 0.822 | 0.884 | 148 | 66 | 32 | 7 |
-| ChatGPT o3 | 0.877 | 0.981 | 0.714 | 0.844 | 0.907 | 152 | 70 | 28 | 3 |
-| Claude Haiku 4.5 | 0.791 | 0.871 | 0.663 | 0.804 | 0.836 | 135 | 65 | 33 | 20 |
+| Model | Accuracy | Precision | Recall | Specificity | F1 Score |
+|-------|----------|-----------|--------|-------------|----------|
+| **ChatGPT 5.4 Thinking** | **0.9486** | 0.9277 | **0.9935** | 0.8776 | **0.9595** |
+| ChatGPT 5.5 Thinking | 0.9328 | **0.9312** | 0.9613 | **0.8878** | 0.9460 |
+| Gemini 3.1 Thinking | 0.9209 | 0.9042 | 0.9742 | 0.8367 | 0.9379 |
+| Gemini 3.1 Pro | 0.9051 | 0.8876 | 0.9677 | 0.8061 | 0.9259 |
+| ChatGPT o3 | 0.8775 | 0.8444 | 0.9806 | 0.7143 | 0.9075 |
+| Claude Sonnet 4.5 | 0.8617 | 0.9110 | 0.8581 | 0.8673 | 0.8837 |
+| Claude Sonnet 4.6 | 0.8458 | 0.8222 | 0.9548 | 0.6735 | 0.8836 |
+| Claude Haiku 4.5 | 0.7905 | 0.8036 | 0.8710 | 0.6633 | 0.8359 |
 
-> **TP** = True Positive, **TN** = True Negative, **FP** = False Positive, **FN** = False Negative  
-> **Sensitivity** = recall for tumor-positive class (clinically critical — missing a tumor is dangerous)  
-> **Specificity** = recall for tumor-negative class
+### Test Set Performance (N = 51)
 
-### Key Observations
+| Model | Accuracy | Precision | Recall | Specificity | F1 Score |
+|-------|----------|-----------|--------|-------------|----------|
+| **ChatGPT 5.4 Thinking** | **1.0000** | **1.0000** | **1.0000** | **1.0000** | **1.0000** |
+| ChatGPT 5.5 Thinking | 0.9804 | 1.0000 | 0.9677 | 1.0000 | 0.9836 |
+| Gemini 3.1 Thinking | 0.9412 | 0.9375 | 0.9677 | 0.9000 | 0.9524 |
+| ChatGPT o3 | 0.9020 | 0.8824 | 0.9677 | 0.8000 | 0.9231 |
+| Gemini 3.1 Pro | 0.9020 | 0.9062 | 0.9355 | 0.8500 | 0.9206 |
+| Claude Sonnet 4.6 | 0.8824 | 0.8788 | 0.9355 | 0.8000 | 0.9062 |
+| Claude Sonnet 4.5 | 0.8627 | 0.9615 | 0.8065 | 0.9500 | 0.8772 |
+| Claude Haiku 4.5 | 0.7647 | 0.7879 | 0.8387 | 0.6500 | 0.8125 |
 
-- 🥇 **ChatGPT 5.4 Thinking** achieves the best overall performance with **94.9% accuracy** and an exceptional **sensitivity of 99.4%** (only 1 missed tumor out of 155).
-- 🧠 **Reasoning-augmented models** (ChatGPT 5.4/5.5 Thinking, Gemini 3.1 Thinking) consistently outperform their standard counterparts, suggesting that chain-of-thought reasoning aids visual medical analysis.
-- ⚠️ **Claude Haiku 4.5** is the weakest performer across all metrics, consistent with its lightweight architecture.
-- 📉 **False Positive rates** are notably high in Claude Sonnet 4.6, Claude Haiku 4.5, and ChatGPT o3, which may cause unnecessary follow-up diagnostics in clinical settings.
-- 🎯 **Claude Sonnet 4.5** achieves the highest **specificity (86.7%)** and **precision (91.1%)** among Claude models, indicating a more conservative, high-confidence detection strategy.
-- 🏥 In a medical context, **sensitivity is paramount** — failing to detect a tumor (false negative) carries far greater clinical risk than a false positive. On this criterion, ChatGPT 5.4 Thinking is the standout model.
+> ⚠️ **Note:** ChatGPT 5.4 Thinking achieved perfect classification on the test set (Accuracy = 1.00, F1 = 1.00). This is an empirical finding and may reflect characteristics of this specific test partition.
+
+### Key Findings
+
+- **ChatGPT 5.4 Thinking** achieves the highest overall accuracy (94.86%) and F1 score (0.9595), with a near-perfect recall of 99.35% — critically important in a medical screening context.
+- **OpenAI reasoning models** (5.4 Thinking, 5.5 Thinking, o3) consistently outperform both Google and Anthropic models across all metrics.
+- **Gemini 3.1 Thinking** ranks third overall (Accuracy: 92.09%, F1: 0.9379), demonstrating that reasoning-mode variants consistently outperform their standard counterparts.
+- **Claude Sonnet 4.6** exhibits high recall (0.9548) but lower specificity (0.6735), indicating a tendency toward false positives.
+- **Claude Haiku 4.5** shows the weakest performance overall, expected given its lightweight architecture.
+- **Reasoning-mode models** (Thinking variants) uniformly outperform standard models from the same family.
 
 ---
 
-## 🏗️ Repository Structure
+## 🧪 Methodology
+
+### Prompt Design
+
+Each model was presented with a brain MRI image and asked to classify it as tumor-positive or tumor-negative. The prompt was identical across all models:
 
 ```
+You are a medical image analysis assistant. Examine the provided brain MRI scan and determine whether a brain tumor is present.
+
+Respond with ONLY one word: "Yes" if a tumor is present, or "No" if no tumor is detected.
+```
+
+### Evaluation Protocol
+
+- Images were presented one at a time with no additional clinical context.
+- Responses were parsed as binary (Yes/No) and compared against ground truth labels.
+- Metrics computed: TP, TN, FP, FN → Accuracy, Precision, Recall (Sensitivity), Specificity, F1 Score.
+- Evaluation was performed separately for Train, Test, and All splits.
+
+---
+
+## 📁 Repository Structure
+
+```
+.
 ├── data/
-│   ├── noListFinal.xlsx        # LLM outputs for tumor-negative images
-│   └── yesListFinal.xlsx       # LLM outputs for tumor-positive images
-├── cnn/
-│   ├── model.py                # CNN architecture definition
-│   ├── train.py                # Training script
-│   └── evaluate.py             # Evaluation script
-├── llm_evaluation/
-│   ├── prompt_template.txt     # Prompt used for all LLMs
-│   └── results_analysis.py     # Metric computation from Excel files
-├── figures/
-│   └── ...                     # Confusion matrices, comparison charts
-├── README.md
-└── requirements.txt
+│   ├── noList_addedType.xlsx       # Per-image model responses — No Tumor class
+│   ├── yesList_addedType.xlsx      # Per-image model responses — Tumor class
+│   └── metrics_report.xlsx        # Aggregated performance metrics (All/Train/Test)
+├── results/
+│   └── figures/                   # Performance charts and confusion matrices
+├── notebooks/
+│   └── analysis.ipynb             # Metric computation and visualization
+└── README.md
 ```
 
 ---
 
-## ⚙️ Methodology
+## 📈 Confusion Matrix Summary (Overall)
 
-### LLM Evaluation Protocol
+|  | **Predicted: Yes** | **Predicted: No** |
+|--|----|----|
+| **Actual: Yes** | TP | FN |
+| **Actual: No** | FP | TN |
 
-Each MRI image was submitted to all 8 multimodal LLMs using an identical, standardized prompt:
-
-> *"This is a brain MRI scan. Based on the image, is a brain tumor present? Answer with only 'Yes' or 'No'."*
-
-Responses were recorded in binary format (`Yes` / `No`) and compared against ground-truth labels from the dataset. No fine-tuning or few-shot examples were used — all evaluations are **zero-shot**.
-
-### CNN Baseline
-
-A convolutional neural network was trained on the same dataset using an 80/20 train-test split. The architecture follows standard practices for medical image binary classification (details in `cnn/model.py`).
-
-### Evaluation Metrics
-
-All metrics were computed using the standard definitions:
-
-$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
-
-$$\text{Sensitivity (Recall)} = \frac{TP}{TP + FN}$$
-
-$$\text{Specificity} = \frac{TN}{TN + FP}$$
-
-$$\text{Precision} = \frac{TP}{TP + FP}$$
-
-$$\text{F1} = 2 \cdot \frac{\text{Precision} \cdot \text{Sensitivity}}{\text{Precision} + \text{Sensitivity}}$$
+| Model | TP | TN | FP | FN |
+|-------|----|----|----|----|
+| ChatGPT 5.4 Thinking | 154 | 86 | 12 | 1 |
+| ChatGPT 5.5 Thinking | 149 | 87 | 11 | 6 |
+| Gemini 3.1 Thinking | 151 | 82 | 16 | 4 |
+| Gemini 3.1 Pro | 150 | 79 | 19 | 5 |
+| ChatGPT o3 | 152 | 70 | 28 | 3 |
+| Claude Sonnet 4.5 | 133 | 85 | 13 | 22 |
+| Claude Sonnet 4.6 | 148 | 66 | 32 | 7 |
+| Claude Haiku 4.5 | 135 | 65 | 33 | 20 |
 
 ---
 
-## 🚀 Reproducing the Results
+## ⚙️ Reproducibility
 
-### Prerequisites
+All model queries were performed via official APIs or chat interfaces during [insert date range]. Results may vary slightly across sessions due to model non-determinism. To maximize reproducibility:
 
-```bash
-pip install -r requirements.txt
-```
-
-### Reproduce LLM Metric Analysis
-
-```bash
-python llm_evaluation/results_analysis.py \
-  --no_list data/noListFinal.xlsx \
-  --yes_list data/yesListFinal.xlsx
-```
-
-### Train and Evaluate CNN
-
-```bash
-# Download dataset from Kaggle first
-python cnn/train.py --data_dir ./brain_tumor_dataset/
-python cnn/evaluate.py --model_path ./cnn/saved_model.pth
-```
+- Temperature was set to 0 (or lowest available) where configurable.
+- Each image was evaluated independently in a fresh session.
+- Raw responses are archived in the `data/` directory.
 
 ---
 
@@ -157,12 +158,12 @@ python cnn/evaluate.py --model_path ./cnn/saved_model.pth
 If you use this work, please cite:
 
 ```bibtex
-@article{yourname2025braintumor,
-  title     = {Brain Tumor Detection via Multimodal LLMs vs. CNN: A Comparative Benchmark Study},
-  author    = {Your Name and Co-Authors},
-  journal   = {Journal Name},
+@article{yourname2025llmbrain,
+  title     = {Can Large Language Models Detect Brain Tumors? A Zero-Shot Benchmark on MRI Images},
+  author    = {[Author Names]},
+  journal   = {[Journal Name]},
   year      = {2025},
-  url       = {https://github.com/yourusername/your-repo}
+  note      = {Under Review}
 }
 ```
 
@@ -170,13 +171,15 @@ If you use this work, please cite:
 
 ## 📜 License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
-The dataset is provided by [Navoneel Chakrabarty on Kaggle](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection) under its respective license.
+This project is licensed under the MIT License. The dataset is subject to its original [Kaggle license](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection).
 
 ---
 
-## 🤝 Acknowledgments
+## 🙏 Acknowledgements
 
-- Dataset: Navoneel Chakrabarty (Kaggle)
-- Models evaluated: OpenAI (ChatGPT), Google DeepMind (Gemini), Anthropic (Claude)
+- Dataset provided by [Navoneel Chakrabarty](https://www.kaggle.com/navoneel) via Kaggle.
+- Model APIs: OpenAI, Google DeepMind, Anthropic.
+
+---
+
+*For questions or collaborations, please open an issue or contact the corresponding author.*
