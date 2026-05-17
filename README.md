@@ -259,6 +259,6 @@ This project is released for academic and research purposes. Please check the or
 
 ## Contact
 
--Corresponding author: Author One (e-mail: mustafayurdakul@kku.edu.tr)
--For questions, suggestions, or collaboration requests, please open an issue on the GitHub repository.
+- Corresponding author: Author One (e-mail: mustafayurdakul@kku.edu.tr)
+- For questions, suggestions, or collaboration requests, please open an issue on the GitHub repository.
 
