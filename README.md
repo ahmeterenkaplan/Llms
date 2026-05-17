@@ -1,6 +1,6 @@
-# Comparative Evaluation of CNN Architectures and Multimodal Large Language Models for Brain MRI Tumor Detection
+# A Comparative Evaluation of Convolutional Neural Networks and Multimodal Large Language Models for Brain Tumor Detection on Magnetic Resonance Images
 
-> **SCI-style research repository** for benchmarking classical deep learning CNN architectures and modern multimodal large language models (MLLMs) on binary brain tumor detection from MRI images.
+
 
 [![Dataset](https://img.shields.io/badge/Dataset-Kaggle-blue)](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)
 [![Task](https://img.shields.io/badge/Task-Brain%20Tumor%20Detection-red)](#)
@@ -201,72 +201,12 @@ From a clinical perspective, false negatives are especially important because th
 
 ---
 
-## Repository Structure
 
-A suggested repository structure is shown below:
 
-```text
-brain-mri-llm-cnn-comparison/
-│
-├── data/
-│   ├── raw/                  # Original Kaggle dataset images
-│   ├── train/                # Training images
-│   └── test/                 # Test images
-│
-├── notebooks/
-│   ├── 01_data_preprocessing.ipynb
-│   ├── 02_cnn_training.ipynb
-│   ├── 03_llm_prediction_analysis.ipynb
-│   └── 04_results_visualization.ipynb
-│
-├── results/
-│   ├── cnn_metrics.csv
-│   ├── llm_metrics.csv
-│   ├── confusion_matrices/
-│   └── figures/
-│
-├── src/
-│   ├── preprocessing.py
-│   ├── train_cnn.py
-│   ├── evaluate.py
-│   └── metrics.py
-│
-├── README.md
-└── requirements.txt
-```
 
----
 
-## How to Reproduce
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/brain-mri-llm-cnn-comparison.git
-cd brain-mri-llm-cnn-comparison
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Example Python dependencies:
-
-```text
-numpy
-pandas
-scikit-learn
-matplotlib
-seaborn
-tensorflow
-keras
-opencv-python
-jupyter
-```
-
-### 3. Download the Dataset
+###  Download the Dataset
 
 Download the dataset from Kaggle:
 
@@ -276,21 +216,6 @@ https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detect
 
 Then place the images under the `data/raw/` directory.
 
-### 4. Run the Experiments
-
-```bash
-python src/train_cnn.py
-python src/evaluate.py
-```
-
-For notebook-based analysis, run the notebooks in the following order:
-
-```text
-01_data_preprocessing.ipynb
-02_cnn_training.ipynb
-03_llm_prediction_analysis.ipynb
-04_results_visualization.ipynb
-```
 
 ---
 
@@ -326,22 +251,6 @@ This repository is intended for academic and research purposes only. The models 
 
 ---
 
-## Citation
-
-If you use this repository or its experimental results in your work, please cite it as:
-
-```bibtex
-@misc{brain_mri_llm_cnn_comparison,
-  title        = {Comparative Evaluation of CNN Architectures and Multimodal Large Language Models for Brain MRI Tumor Detection},
-  author       = {Kaplan, Eren},
-  year         = {2026},
-  howpublished = {GitHub repository},
-  note         = {Brain MRI tumor detection using CNNs and multimodal large language models}
-}
-```
-
----
-
 ## License
 
 This project is released for academic and research purposes. Please check the original Kaggle dataset page for dataset-specific license and usage conditions.
@@ -350,4 +259,6 @@ This project is released for academic and research purposes. Please check the or
 
 ## Contact
 
+Corresponding author: Author One (e-mail: (mailto:mustafayurdakul@kku.edu.tr) )
 For questions, suggestions, or collaboration requests, please open an issue on the GitHub repository.
+
